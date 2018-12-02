@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="member">
+	<insert id="insertMember">
+		INSERT INTO MEMBER 
+		VALUES(#{member_id},
+			   #{member_password},
+			   #{member_name},
+			   #{member_gender},
+			   #{member_birthday},
+			   #{member_phone},
+			   #{member_email},
+			   default,
+			   default,default,default)
+	</insert>
+	<resultMap type="member" id="memberMap">
+		
+	</resultMap>
+	<select id="selectOneMember" resultMap="memberMap">
+		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+	<select  id="checkIdDuplicate" resultType="_int">
+	SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+	<update id="updateMember">
+	UPDATE MEMBER SET member_name=#{member_name},member_email=#{member_email},member_gender=#{member_gender},member_phone=#{member_phone},member_grade=#{member_grade},authority=#{autority} where member_id = #{member_id}
+	</update>
+	
+	<!-- 로그인 회원 토탈 관련 시작 -->
+	<select id="totalMember" resultType="_int">
+		select count(*) from connect_member
+	</select>
+	
+	<insert id="connectMember">
+		insert into connect_member values(#{username},#{member_name},sysdate)
+	</insert>
+	
+	<select id="selectMember" resultType="_int">
+		select count(*) from connect_member where member_id=#{member_id}
+	</select>
+		
+	<delete id="deleteConnect">
+		delete from connect_member where member_id=#{username}
+	</delete>
+	
+	<select id="selectConnectMember" resultType="map">
+		select member_id as username, member_password as password, enabled, authority, member_name
+		from member
+		where member_id=#{user_name}
+	</select>
+	
+	<!-- 로그인 회원 토탈 관련 끝 -->
+	
+	<delete id="deleteMember">
+	DELETE FROM MEMBER WHERE MEMBER_ID=#{member_id}
+	</delete>
+
+	<insert id="insertAddress">
+		insert into address values(seq_address_no.nextval, #{member_id}, #{address}, #{zip_code}, #{address_level})
+	</insert>
+	
+	<update id="updateAddress">
+		update address set zip_code=#{zip_code},address=#{address} where member_id = #{member_id} and address_level = #{address_level}
+	</update>
+
+	<select id="selectMembership" resultType="membership">
+		select * from membership where member_id=#{memberId}
+	</select>
+	
+	<update id="updateMembership" statementType="CALLABLE">
+		{call proc_membership(#{member_id}, #{membership}, #{totalPrice})}
+	</update>
+
+	<select id="selectQuestionList" resultType="question">
+		select question_no, member_id, question_comment,
+		to_char(question_reg_date,'yyyy-mm-dd hh24:mi:ss') as question_reg_date,
+		question_title
+		from question
+		where admin_id is not null
+		order by question_no desc
+	</select>
+	<select id="selectQuestionListCount" resultType="_int">
+		select count(*)
+		from question
+		where member_id=#{member_id} and admin_id is not null
+		order by question_no desc
+	</select>
+	
+	<insert id="insertQuestion">
+			insert into question
+			values(seq_question_no.nextval,#{member_id},#{question_comment},sysdate,#{question_title},null)
+	
+			<selectKey keyProperty="question_no" order="AFTER" resultType="_int">
+				select seq_question_no.currval from dual
+			</selectKey>
+	</insert>
+	<insert id="insertFile">
+	insert into question_file
+	values(seq_question_file_no.nextval,#{question_no},null,#{renamed_filename})
+	</insert>
+	<select id="selectQuestion" resultType="question">
+	select * from question where question_no=#{no}
+	</select>
+	
+	<delete id="deleteQuestion">
+		delete question where question_no=#{question_no}
+	</delete>
+	
+	<select id="selectAddrList" resultType="address">
+		select * from address where member_id = #{member_id} order by address_level
+	</select>
+
+	<delete id="deleteMemberAddress">
+		delete from address where address_no = #{address_no}
+	</delete>
+	
+	<update id="updateAddressLevel">
+		update address set address_level=#{address_level} where member_id=#{member_id} and address_level = 1
+	</update>
+	
+	<update id="updateAddressLevelByAddrNo">
+		update address set address_level = 1 where address_no = #{address_no}
+	</update>
+	
+	<select id="selectAddrLevel" resultType="_int">
+		select max(address_level) from address where member_id = #{member_id}
+	</select>
+
+</mapper>

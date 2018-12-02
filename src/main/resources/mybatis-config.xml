@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org/DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	 <typeAliases>
+	 	<typeAlias type="com.proj.rup.product.model.vo.Product" alias="product"/>
+	 	<typeAlias type="com.proj.rup.freeboard.model.vo.FreeBoard" alias="freeboard"/>
+	 	<typeAlias type="com.proj.rup.member.model.vo.Member" alias="member"/>
+	 	<typeAlias type="com.proj.rup.freeboard.model.vo.FreeBoardFile" alias="freeboardFile"/>
+	 	<typeAlias type="com.proj.rup.basket.model.vo.Basket" alias="basket"/>
+	 	<typeAlias type="com.proj.rup.freeboard.model.vo.FreeBoardComment" alias="freeboardComment"/>
+	 	<typeAlias type="com.proj.rup.purchase.model.vo.PurchaseComplete" alias="purchaseComplete"/>
+	 	<typeAlias type="com.proj.rup.basket.model.vo.BasketProduct" alias="basketProduct"/>
+	 	<typeAlias type="com.proj.rup.chatting.model.vo.Chatting" alias="chatting"/>
+	 	<typeAlias type="com.proj.rup.member.model.vo.MemberAddress" alias="memberAddress"/>
+	 	<typeAlias type="com.proj.rup.member.model.vo.Address" alias="address"/>
+
+		<typeAlias type="com.proj.rup.product.model.vo.Brand" alias="brand"/>
+	 	<typeAlias type="com.proj.rup.product.model.vo.Category" alias="category"/>
+	 	<typeAlias type="com.proj.rup.member.model.vo.Membership" alias="membership"/>
+	 	<typeAlias type="com.proj.rup.product.model.vo.ProductCategoryLevel" alias="productCategoryLevel"/>
+		<typeAlias type="com.proj.rup.noticeboard.model.vo.NoticeBoard" alias="noticeboard"/>
+		<typeAlias type="com.proj.rup.noticeboard.model.vo.NoticeBoardFile" alias="noticeboardFile"/>
+		<typeAlias type="com.proj.rup.member.model.vo.Question" alias="question"/>
+		<typeAlias type="com.proj.rup.product.model.vo.Product_File" alias="productFile"/>	
+		<typeAlias type="com.proj.rup.purchase.model.vo.PurchaseCancel" alias="purchaseCancel"/>
+
+
+	 </typeAliases>
+</configuration>
